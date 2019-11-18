@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      targetNamespace="http://hotel.com/reservations/service"
+      xmlns:tns="http://hotel.com/reservations/service"
+      xmlns:hotel="http://hotel.com/reservations">
+
+    <wsdl:types>
+        <xs:schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://hotel.com/reservations">
+
+            <xs:element name="request">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="checkin" type="xs:date"/>
+                        <xs:element name="checkout" type="xs:date"/>
+                        <xs:element name="cuarto" type="xs:int"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="response">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="reservado" type="xs:boolean"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+        </xs:schema>
+    </wsdl:types>
+
+    <wsdl:message name="ReservationMessageRequest">
+        <wsdl:part name="parameter" element="hotel:request" />
+    </wsdl:message>
+
+    <wsdl:message name="ReservationMessageResponse">
+        <wsdl:part name="parameter" element="hotel:response" />
+    </wsdl:message>
+
+    <wsdl:portType name="NewPortType">
+        <wsdl:operation name="ReservationOperation">
+            <wsdl:input message="tns:ReservationMessageRequest" />
+            <wsdl:output message="tns:ReservationMessageResponse" />
+        </wsdl:operation>
+    </wsdl:portType>
+
+    <wsdl:binding name="ReservationBinding" type="tns:NewPortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+        <wsdl:operation name="ReservationOperation">
+            <soap:operation soapAction="http://hotel.com/ReservationOperation" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+
+    <wsdl:service name="ReservationService">
+        <wsdl:port name="NewPort" binding="tns:ReservationBinding">
+            <soap:address location="http://localhost:8080/axis2/services/ReservationService" />
+        </wsdl:port>
+    </wsdl:service>
+
+</wsdl:definitions>

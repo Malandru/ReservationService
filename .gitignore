@@ -1,0 +1,10 @@
+.gradle/
+.idea/
+Reservaciones.iml
+build/
+gradle/
+gradlew
+gradlew.bat
+libAxis2/
+lib/
+bin/
